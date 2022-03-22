@@ -1,0 +1,34 @@
+
+#########################################
+#              API - ROUTES             #
+#########################################
+
+@PORT = 4000
+@TO  = "+2347010642657"
+
+
+### Check if API is working 
+GET http://localhost:{{PORT}}/api HTTP/1.1
+
+### Get QR-CODE to login 
+GET http://localhost:{{PORT}}/api/qrcode HTTP/1.1
+accept: * 
+content-type: application/json
+
+### Check Client status if its logged in or not
+GET http://localhost:{{PORT}}/api/whatsapp/status HTTP/1.1
+accept: * 
+content-type: application/json
+
+
+###Send Message
+POST http://localhost:{{PORT}}/api/send/message HTTP/1.1
+accept: * 
+content-type: application/json
+
+{
+    "phone"    : {{TO}},
+    "message"  : "HEY, JUST CHECKING MY BOT ASAP! 😃"
+}
+
+
