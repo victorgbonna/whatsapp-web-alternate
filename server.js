@@ -82,7 +82,7 @@ async function createGroup(title, participants=[]){
   console.log({b})
   // const members=participants.map(mobile=>await client.getContactById(convertTochatId(mobile)))
   // console.log(members)
-  const group=await client.createGroup(title,[b.id])
+  const group=await client.createGroup(title,[convertTochatId(participants[0])])
   return group
 }
 async function getCommonGroups(mobile){
