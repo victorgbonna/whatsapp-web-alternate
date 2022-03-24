@@ -4,7 +4,7 @@
 #########################################
 
 @PORT = 4000
-@TO  = "+2347010642657"
+@TO  = "+234 7010642657"
 
 
 ### Check if API is working 
@@ -20,7 +20,37 @@ GET http://localhost:{{PORT}}/api/whatsapp/status HTTP/1.1
 accept: * 
 content-type: application/json
 
+### Check Client status if its logged in or not
+GET http://localhost:{{PORT}}/api/messages?query="howfa" HTTP/1.1
+accept: * 
+content-type: application/json
 
+### Check Client status if its logged in or not
+GET http://localhost:{{PORT}}/api/messages?query="howfa" HTTP/1.1
+accept: * 
+content-type: application/json
+
+###Send Message
+POST http://localhost:{{PORT}}/api/send/location HTTP/1.1
+accept: * 
+content-type: application/json
+
+{
+    "phone"    : {{TO}},
+    "latitude": 67,
+    "longtitude":80,
+    "description":"this is it"
+}
+###Send Message
+POST http://localhost:{{PORT}}/api/send/image HTTP/1.1
+accept: * 
+content-type: application/json
+
+{
+    "phone"    : {{TO}},
+    "mediaUrl": "https://via.placeholder.com/350x150.png",
+    "caption":"this is it"
+}
 ###Send Message
 POST http://localhost:{{PORT}}/api/send/message HTTP/1.1
 accept: * 
@@ -28,7 +58,45 @@ content-type: application/json
 
 {
     "phone"    : {{TO}},
-    "message"  : "HEY, JUST CHECKING MY BOT ASAP! 😃"
+    "message"  : "work bro"
 }
+###Send Message
+POST http://localhost:{{PORT}}/api/set/status HTTP/1.1
+accept: * 
+content-type: application/json
 
+{
+    "status"    : "On it!!" 
+}
+### Check Client status if its logged in or not
+GET http://localhost:{{PORT}}/api/chats HTTP/1.1
+accept: * 
+content-type: application/json
+
+### Check Client status if its logged in or not
+GET http://localhost:{{PORT}}/api/groups/+234 8105463507 HTTP/1.1
+accept: * 
+content-type: application/json
+
+###Send Message
+POST http://localhost:{{PORT}}/api/change/displayname HTTP/1.1
+accept: * 
+content-type: application/json
+
+{
+    "displayName"    : "GH`ded" 
+}
+###Send Message
+POST http://localhost:{{PORT}}/api/create/group HTTP/1.1
+accept: * 
+content-type: application/json
+
+{
+    "title"    : "my bot group", 
+    "participants":[{{TO}}] 
+}
+### Check Client status if its logged in or not
+GET http://localhost:{{PORT}}/api/logout HTTP/1.1
+accept: * 
+content-type: application/json
 
