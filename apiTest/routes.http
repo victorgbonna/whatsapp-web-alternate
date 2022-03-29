@@ -11,7 +11,12 @@
 GET http://localhost:{{PORT}} HTTP/1.1
 
 ### Check Client status if its logged in or not
-GET http://localhost:{{PORT}}/api/whatsapp/status HTTP/1.1
+GET http://localhost:{{PORT}}/auth/checkauth HTTP/1.1
+accept: * 
+content-type: application/json
+
+### Check Client status if its logged in or not
+GET http://localhost:{{PORT}}/auth/getqr HTTP/1.1
 accept: * 
 content-type: application/json
 
@@ -26,13 +31,13 @@ accept: *
 content-type: application/json
 
 ###Send Message to a contact
-POST http://localhost:{{PORT}}/api/send/message HTTP/1.1
+POST http://localhost:{{PORT}}/api/whatsapp/send/message HTTP/1.1
 accept: * 
 content-type: application/json
 
 {
     "phone"    : {{TO}},
-    "message"  : "work bro"
+    "message"  : "BOT TESTING. Do not take too serious"
 }
 ###Send location to a contact
 POST http://localhost:{{PORT}}/api/send/location HTTP/1.1
