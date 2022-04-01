@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const client= require('../../config/whatsapp')
 const {sendMessage,sendMedia, sendLocation, createGroup, 
-    getCommonGroups, convertTochatId, checkUser}=require('../../modules/broadcast/service')
+    getCommonGroups, convertTochatId, checkUser}=require('../../modules/whatsapp/service')
 const qrcode = require('qrcode-terminal');
 // const {addProduct,getProducts}=require('../../modules/product/service')
 // const Product = require('../../modules/product/model')

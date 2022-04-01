@@ -8,32 +8,51 @@
 </head>
 <body class="text-gray-800 font-family">
     <div class="space-y-6 phone:space-y-4 overflow-x-hidden">
-    
+        <form id="myform" action="/api/broadcast/create" class="space-y-7" id="AddProductForm" enctype="multipart/form-data">
+            <input type="file" name="csvFile"> input image
+            <input class="block p-4 btn bg-yellow-200 hover:bg-yellow-300 text-white mx-auto w-36" type="submit" value="POST PRODUCT">
+        </form>
     <div class="hidden" id="space">&nbsp;</div>
     <button id="getqrBtn">click me</button>
     <div id="qrcodediv" style="margin-top: 100px; width: 100%; height: 100%;"></div>
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/qr-creator/dist/qr-creator.es6.min.js"></script> -->
-<!-- <script type="module">
-    import QrCreator from "https://cdn.jsdelivr.net/npm/qr-creator/dist/qr-creator.es6.min.js";
-    console.log(QrCreator)
-</script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha512-ZDSPMa/JM1D+7kdg2x3BsruQ6T/JpJo3jWDWkCZsP+5yVyp1KfESqLI+7RqB5k24F7p2cV7i2YHh/890y6P6Sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="js/qrcode.min.js"></script>
 <script>
-    function getQrCodeClient(){
-        axios.get('/auth/getqr')
+    var formu= document.querySelector('#myform')
+    formu.addEventListener('submit', function(e) {
+        e.preventDefault()
+        var body=new FormData(formu)
+        axios.post(`/api/broadcast/create`, body)
         .then(result=>{
-            // console.log({result})
+            console.log('sjjs')
+            console.log(result)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    })
+    function getQrCodeClient(){
+        axios.get('/api/getqr')
+        .then(result=>{
+            console.log({result})
             var qrcodediv=new QRCode(document.querySelector('#qrcodediv'))
-            console.log(qrcodediv)
+            // console.log(qrcodediv)
             var data= result.data
+            // console.log(data, result)
+            if(data!='already authenticated'){
+                console.log(data.length)
+                console.log(data)
+                qrcodediv.makeCode(data)    
+            }
+            else{
+                console.log('you are already logged in')
+            }
+            
             // data='2@eiTvo+yL85fDXE206iYIUdruP75Rq1oZkPVlbBN57APxvm3UVWVNoZ8JjJtV+wK6T/PzaHZgfm0asA==,IfoQdUtjKxy+hhvhTqqAukBv6swkYNFy7avGgQEU4iw=,lHIIVxF02st57rOcaBTxyk9b2c1UfBc76uPtymwLwQk=,KWVYYGPlIp4n+JZ1Atc0+E73qiWIlXX9YOoSqcQDa44='
-            console.log(data.length)
-            console.log(data)
-            qrcodediv.makeCode(data)
+            
         })
         .catch(err=>{
             console.log(err)

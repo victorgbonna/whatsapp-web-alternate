@@ -3,22 +3,59 @@
 #              API - ROUTES             #
 #########################################
 
-@PORT = 4000
+@PORT = 4006
 @TO  = "+2347010642657"
 
 
 ### Check if API is working 
 GET http://localhost:{{PORT}} HTTP/1.1
 
-### Check Client status if its logged in or not
-GET http://localhost:{{PORT}}/auth/checkauth HTTP/1.1
+### Get qr code
+GET http://localhost:{{PORT}}/api/auth/getqr HTTP/1.1
 accept: * 
 content-type: application/json
 
 ### Check Client status if its logged in or not
-GET http://localhost:{{PORT}}/auth/getqr HTTP/1.1
+GET http://localhost:{{PORT}}/api/auth/status HTTP/1.1
 accept: * 
 content-type: application/json
+
+### create broadcast
+POST http://localhost:{{PORT}}/api/broadcast/create HTTP/1.1
+accept: * 
+content-type: application/json
+
+
+{
+    "csvDemo"    : "Contact,Name\n+2347010642657,michael\n+2348074041229,bigbro",
+    "broadcastName":"demoRebirth"
+}
+### get all broadcast
+GET http://localhost:{{PORT}}/api/broadcast/getAll HTTP/1.1
+accept: * 
+content-type: application/json
+
+### get all the current client broadcasts
+GET http://localhost:{{PORT}}/broadcast/currentClient/get HTTP/1.1
+accept: * 
+content-type: application/json
+
+### create broadcast
+POST http://localhost:{{PORT}}/api/broadcast/send/message HTTP/1.1
+accept: * 
+content-type: application/json
+
+
+{
+    "clientPhone"    : "+2348102603301",
+    "broadcastName":"demoRebirth",
+    "message":"Ignore, This is a bot!"
+}
+
+
+
+
+
 
 ### search client messages with request query as query while the limit and page is optional
 GET http://localhost:{{PORT}}/api/messages?query="howfa" HTTP/1.1

@@ -28,7 +28,7 @@ app.use(morgan("dev"));
 
 client.on("qr", (qr) => {
   console.log("qr");
-  fs.writeFileSync("./components/last.qr", qr);
+  fs.writeFileSync("./tempStorage/last.qr", qr);
 });
 
 client.on("authenticated", () => {
@@ -36,7 +36,7 @@ client.on("authenticated", () => {
   authed = true;
 
   try {
-    fs.unlinkSync("./components/last.qr");
+    fs.unlinkSync("./tempStorage/last.qr");
   } catch (err) {}
 });
 
