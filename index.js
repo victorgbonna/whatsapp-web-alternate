@@ -28,7 +28,7 @@ app.use(cors());
 
 client.on('qr', (qr) => {
   console.log('QR RECEIVED', qr);
-  qrcode.generate(qr, { small: true }); // Add this line
+  // qrcode.generate(qr, { small: true }); // Add this line
   fs.writeFileSync("./tempStorage/last.qr", qr);
 })
 client.on('ready', () => {
