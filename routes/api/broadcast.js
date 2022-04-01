@@ -10,7 +10,7 @@ const router = express.Router()
 
 router.post('/create',upload.single('csvFile'), async(req,res)=>{
     try {
-      fs.readFile(`tempStorage/${req.file.filename}`, "utf-8", (err, csvFile) => {
+      fs.readFile(`tempStorage/${req.file.filename}`, "utf-8", async(err, csvFile) => {
         if(err){
           console.log('there is an error')
           return res.json({
@@ -25,7 +25,7 @@ router.post('/create',upload.single('csvFile'), async(req,res)=>{
           const contacts=arrangeCsvToObjArray(csvFile)
           const clientInfo= client.info
           const clientId=clientInfo.wid._serialized
-          const broadcast= await createBroadcast({
+          await createBroadcast({
             clientId,
             contacts,
             broadcastName:req.body.broadcastName      
@@ -47,6 +47,7 @@ router.post('/create',upload.single('csvFile'), async(req,res)=>{
       })
     }
   try {
+    console.log("now deleting")
     fs.unlinkSync(`tempStorage/${req.file.filename}`)
   } catch (error) {
     console.log(error)
