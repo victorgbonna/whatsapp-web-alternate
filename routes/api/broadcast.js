@@ -1,7 +1,7 @@
 const express = require('express')
 const client= require('../../config/whatsapp')
 const upload= require('../../config/multer')
-const fs= require('fs')
+const fs = require('fs').promises;
 const { arrangeCsvToObjArray, createBroadcast, getAllBroadcast, getAllClientBroadcast, getBroadcastContacts } = require('../../modules/broadcast/service')
 const { convertTochatId, sendMessage } = require('../../modules/whatsapp/service')
 
@@ -10,35 +10,27 @@ const router = express.Router()
 
 router.post('/create',upload.single('csvFile'), async(req,res)=>{
     try {
-      fs.readFile(`tempStorage/${req.file.filename}`, "utf-8", async(err, csvFile) => {
-        if(err){
-          console.log('there is an error')
-          return res.json({
-            error:"error",
-            message:err||"somethinhg went wrong"
-          })
-        }
-        if (!err && csvFile) {
-          console.log('req body')
-          console.log(req.body)
-          console.log(csvFile)
-          const contacts=arrangeCsvToObjArray(csvFile)
-          const clientInfo= client.info
-          const clientId=clientInfo.wid._serialized
-          await createBroadcast({
-            clientId,
-            contacts,
-            broadcastName:req.body.broadcastName      
-          })     
-          res.json({
-            status:'successful',
-            contacts
-          })
-        }
-      })
-      // const csvDemo="Contact,Name\n+2348102603301,victor\n+2348072897950,victor2"
-      // const reqDemo={csvDemo,broadcastName:'demo'}
-
+      const csvFile=await fs.readFile(`tempStorage/${req.file.filename}`, "utf-8")
+      if(!csvFile){
+        console.log('there is an error')
+        return res.json({
+          error:"error",
+          message:err||"somethinhg went wrong"
+        })
+      }
+      const contacts=arrangeCsvToObjArray(csvFile)
+      const clientInfo= client.info
+      const clientId=clientInfo.wid._serialized
+      await createBroadcast({
+        clientId,
+        contacts,
+        broadcastName:req.body.broadcastName      
+      })     
+      res.json({
+      status:'successful',
+      contacts
+    })
+      
     } catch (err) {
       console.log(err)
       res.json({
@@ -46,13 +38,12 @@ router.post('/create',upload.single('csvFile'), async(req,res)=>{
         message:err||"something went wrong"
       })
     }
-  try {
-    console.log("now deleting")
-    fs.unlinkSync(`tempStorage/${req.file.filename}`)
-  } catch (error) {
-    console.log(error)
-  }
-
+    try {
+      console.log("now deleting")
+      await fs.unlinkSync(`tempStorage/${req.file.filename}`)
+    } catch (error) {
+      console.log(error)
+    }
 })
 router.get('/getAll', async(req,res)=>{
     try {
