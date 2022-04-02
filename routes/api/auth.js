@@ -5,8 +5,8 @@ const router = express.Router()
 const fs = require('fs');
 
 router.get("/getqr", async (req, res) => {
-    client
-      .getState()
+    // const client=await client.getState(
+      client.getState()
       .then((data) => {
         if (data) {
           console.log('if')
@@ -33,8 +33,7 @@ router.get("/getqr", async (req, res) => {
         console.log('error')
         console.log(err)
         return res.json({
-            status:"success",
-            qr:last_qr
+          error:"something went wrong"
         })
       });
 })
